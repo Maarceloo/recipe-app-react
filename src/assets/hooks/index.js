@@ -7,43 +7,37 @@ export const useAsyncEffect = (effect, deps) => {
   }, deps);
 };
 
-export const useLocalStorage = (key, value) => {
+export const useLocalStorage = (key, value, computeType) => {
+  if (!key) return localStorage.clear();
+
   const opType = value !== undefined ? 'set' : 'get';
   const localItem = localStorage.getItem(key);
-  let dataToSet = null;
+  const localToObj = JSON.parse(localItem);
 
-  if (opType === 'get') return JSON.parse(localItem);
+  if (opType === 'get') return localToObj;
 
-  switch (key) {
-  case 'doneRecipes':
-  case 'favoriteRecipes':
-    if (!localItem) {
-      dataToSet = '[]';
-      break;
-    }
+  const compute = {
+    replace: () => value,
+    arrayPush: () => pushToJSONArray(localItem, value),
+    setUser: () => {
+      localToObj.email = value;
+      return JSON.stringify(localToObj);
+    },
+    updateProgress: () => {
+      const modifiedObj = {
+        ...localToObj,
+        [value.type]: {
+          ...localToObj[value.type],
+          [value.id]: value.ingredients,
+        },
+      };
+      return JSON.stringify(modifiedObj);
+    },
+    deleteProgress: () => {
+      delete localToObj[value.type][value.id];
+      return JSON.stringify(localToObj);
+    },
+  };
 
-    pushToJSONArray(localItem, value);
-    break;
-  case 'inProgressRecipes': {
-    if (!localItem) {
-      dataToSet = '{ cocktails : {}, meals: {} }';
-      break;
-    }
-
-    const localToObj = JSON.parse(localItem);
-    const modifiedObj = {
-      ...localToObj,
-      [value.type]: {
-        ...localToObj[value.type],
-        [value.id]: value.ingredients,
-      },
-    };
-    dataToSet = JSON.stringify(modifiedObj);
-    break;
-  }
-  default:
-    return;
-  }
-
-  localStorage.setItem(key, dataToSet);
+  localStorage.setItem(key, compute[computeType]());
 };
