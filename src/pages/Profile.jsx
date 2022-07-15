@@ -1,13 +1,12 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-// import { useLocalStorage } from '../assets/hooks'; FUNÇÃO RETORNANDO ERRO
+import { useLocalStorage } from '../assets/hooks';
 
 function Profile() {
   const history = useHistory();
-  const email = localStorage.getItem('email');
 
-  // const email2 = useLocalStorage('email', 'get');
-  // console.log(email2);
+  const { email } = useLocalStorage('user');
+  console.log(email);
 
   const handleClickLogout = () => {
     localStorage.clear();

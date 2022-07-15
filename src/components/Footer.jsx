@@ -9,21 +9,21 @@ function Footer() {
   return (
     <footer data-testid="footer">
       <button
-        data-testid="drinks-bottom-btn"
         type="button"
         onClick={ () => history.push('/drinks') }
       >
         <img
+          data-testid="drinks-bottom-btn"
           src={ drinkIcon }
           alt="drink"
         />
       </button>
       <button
-        data-testid="food-bottom-btn"
         type="button"
         onClick={ () => history.push('/foods') }
       >
         <img
+          data-testid="food-bottom-btn"
           src={ mealIcon }
           alt="food"
         />
