@@ -28,7 +28,8 @@
   transform-origin: 60px 78px;
 }
 */
-/* 
+
+/*
 .meals > .logo {
   animation: shake 1.5s infinite ease;
   color: aliceblue;
@@ -68,6 +69,6 @@
 } */
 
 * {
-  max-width: 360px;
   max-height: 640px;
+  max-width: 360px;
 }
