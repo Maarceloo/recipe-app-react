@@ -1,8 +1,18 @@
 import React from 'react';
-import { useLocalStorage } from '../assets/hooks';
+import { useHistory } from 'react-router-dom';
+// import { useLocalStorage } from '../assets/hooks'; FUNÇÃO RETORNANDO ERRO
 
 function Profile() {
-  const email = useLocalStorage('email', 'get', null);
+  const history = useHistory();
+  const email = localStorage.getItem('email');
+
+  // const email2 = useLocalStorage('email', 'get');
+  // console.log(email2);
+
+  const handleClickLogout = () => {
+    localStorage.clear();
+    history.push('/');
+  };
 
   return (
     <div>
@@ -10,14 +20,14 @@ function Profile() {
       <button
         data-testid="profile-done-btn"
         type="button"
-        onClick={ null }
+        onClick={ () => history.push('/done-recipes') }
       >
         Done Recipes
       </button>
       <button
         data-testid="profile-favorite-btn"
         type="button"
-        onClick={ null }
+        onClick={ () => history.push('/favorite-recipes') }
       >
         Favorite Recipes
 
@@ -25,7 +35,7 @@ function Profile() {
       <button
         data-testid="profile-logout-btn"
         type="button"
-        onClick={ null }
+        onClick={ handleClickLogout }
       >
         Logout
 
