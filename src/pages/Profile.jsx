@@ -6,7 +6,6 @@ function Profile() {
   const history = useHistory();
 
   const { email } = useLocalStorage('user');
-  console.log(email);
 
   const handleClickLogout = () => {
     localStorage.clear();
