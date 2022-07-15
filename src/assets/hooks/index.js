@@ -19,6 +19,7 @@ export const useLocalStorage = (key, value, computeType) => {
   const compute = {
     replace: () => value,
     arrayPush: () => pushToJSONArray(localItem, value),
+    arrayRemove: () => removeFromJSONArray(localItem, value),
     setUser: () => {
       localToObj.email = value;
       return JSON.stringify(localToObj);
