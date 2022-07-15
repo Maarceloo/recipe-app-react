@@ -4,6 +4,12 @@ export const pushToJSONArray = (jsonArr, value) => {
   return JSON.stringify(parsed);
 };
 
+export const removeFromJSONArray = (jsonArr, id) => {
+  const parsed = JSON.parse(jsonArr);
+  const filtered = parsed.filter((item) => item.id !== id);
+  return JSON.stringify(filtered);
+};
+
 export const mapIngredients = (obj) => {
   const ingredients = [];
   let entries = Object.entries(obj);
