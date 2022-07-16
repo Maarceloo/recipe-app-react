@@ -20,8 +20,12 @@ const RecipeDetails = () => {
   const sugestionsType = recipeType === 'Meal' ? 'Drink' : 'Meal';
   // declara constantes usadas somente aqui
   const desiredSugestionsAmount = 6;
-  const check = useLocalStorage('doneRecipes');
-  const doneRecipe = check && check.some((done) => done.id === id);
+  const donesKey = useLocalStorage('doneRecipes');
+  const progKey = useLocalStorage('inProgressRecipes');
+  const checkDone = donesKey && donesKey.some((done) => done.id === id);
+  const storageRecipeTypes = sugestionsType === 'Meal' ? 'meals' : 'cocktails';
+  const checkProgress = progKey && Object.keys(progKey[storageRecipeTypes]).includes(id);
+  console.log(progKey)
 
   // 'willMount'
   useAsyncEffect(async () => {
@@ -84,14 +88,14 @@ const RecipeDetails = () => {
       <aside className="carousel">
         <SugestionsCarousel sugestions={ sugestions } />
       </aside>
-      {!doneRecipe && (
+      {!checkDone && (
         <button
           type="button"
           data-testid="start-recipe-btn"
           onClick={ handleFinalButt }
           className="final-button"
         >
-          INICIAR!
+          {checkProgress ? 'Continue Recipe' : 'Start Recipe'}
         </button>
       )}
     </div>
