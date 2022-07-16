@@ -20,7 +20,7 @@ export const mapIngredients = (obj) => {
   for (let i = 0; i < entries.length / 2; i += 1) {
     ingredients.push({
       name: entries[i][1],
-      amount: entries[entries.length / 2 + i][1],
+      amount: entries[entries.length / 2 + i] ? entries[entries.length / 2 + i][1] : null,
     });
   }
 
