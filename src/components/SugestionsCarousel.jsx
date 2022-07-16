@@ -3,11 +3,11 @@ import propTypes from 'prop-types';
 import Carousel from 'react-bootstrap/Carousel';
 import SimpleCard from './SimpleCard';
 
-const mapToCarousel = (sugestions, recipeType) => sugestions.map((recipe) => ({
-  // testid: `${i}-recomendation-card`,
+const mapToCarousel = (sugestions, recipeType) => sugestions.map((recipe, i) => ({
+  testid: `${i}-recomendation-card`,
   thumb: recipe[`str${recipeType}Thumb`],
   name: recipe[`str${recipeType}`],
-  id: recipe.strId,
+  id: recipe[`id${recipeType}`],
 }));
 
 const SugestionCarousel = ({ sugestions = [] }) => {
@@ -20,13 +20,16 @@ const SugestionCarousel = ({ sugestions = [] }) => {
         const next = (i + 1) % originalArray.length;
         return (
           <Carousel.Item key={ `CarouselItem${obj.id}` }>
-            <div className="sugestion-carousel" data-testid={ `${i}-recomendation-card` }>
+            <div className="sugestion-carousel">
               <div className="card-wrapper">
                 <h3 data-testid={ `${i}-recomendation-title` }>{obj.name}</h3>
                 <SimpleCard { ...obj } />
               </div>
               <div className="card-wrapper-two">
-                <SimpleCard { ...originalArray[next] } />
+                <SimpleCard
+                  { ...originalArray[next] }
+                  testid={ `doubled-${i}-card` }
+                />
               </div>
             </div>
           </Carousel.Item>
@@ -37,11 +40,7 @@ const SugestionCarousel = ({ sugestions = [] }) => {
 };
 
 SugestionCarousel.propTypes = {
-  sugestions: propTypes.arrayOf(
-    propTypes.shape({
-      strId: propTypes.string.isRequired,
-    }),
-  ).isRequired,
+  sugestions: propTypes.arrayOf(propTypes.object).isRequired,
 };
 
 export default SugestionCarousel;

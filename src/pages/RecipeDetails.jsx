@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import { fetchData } from '../assets/api';
-import { useAsyncEffect } from '../assets/hooks';
+import { useAsyncEffect, useLocalStorage } from '../assets/hooks';
 import useRecipeType from '../assets/hooks/useRecipeType';
 import { getYoutubeEmbedURL, mapIngredients } from '../assets/functions/index';
-// import SimpleCard from '../components/SimpleCard';
 import SugestionsCarousel from '../components/SugestionsCarousel';
 
 const RecipeDetails = () => {
@@ -21,6 +20,8 @@ const RecipeDetails = () => {
   const sugestionsType = recipeType === 'Meal' ? 'Drink' : 'Meal';
   // declara constantes usadas somente aqui
   const desiredSugestionsAmount = 6;
+  const check = useLocalStorage('doneRecipes');
+  const doneRecipe = check && check.some((done) => done.id === id);
 
   // 'willMount'
   useAsyncEffect(async () => {
@@ -42,6 +43,8 @@ const RecipeDetails = () => {
   const youtubeSrc = recipe.strMeal
     ? getYoutubeEmbedURL(recipe.strYoutube)
     : undefined;
+
+  const handleFinalButt = () => console.log(started);
 
   return (
     <div className="recipe-wrapper">
@@ -81,6 +84,16 @@ const RecipeDetails = () => {
       <aside className="carousel">
         <SugestionsCarousel sugestions={ sugestions } />
       </aside>
+      {!doneRecipe && (
+        <button
+          type="button"
+          data-testid="start-recipe-btn"
+          onClick={ handleFinalButt }
+          className="final-button"
+        >
+          INICIAR!
+        </button>
+      )}
     </div>
   );
 };

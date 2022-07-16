@@ -114,3 +114,8 @@ img {
   display: flex;
   flex-flow: column;
 }
+
+.final-button {
+  bottom: 0;
+  position: fixed;
+}
