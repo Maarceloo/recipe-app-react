@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useAsyncEffect } from '../assets/hooks';
 import AppContext from '.';
+import { fetchData } from '../assets/api';
 
 function Provider({ children }) {
   const [filters, setFilters] = useState({
@@ -11,12 +12,18 @@ function Provider({ children }) {
   });
   const [recipies, setRecipies] = useState([]);
 
-  const updateFilters = () => {
-    setFilters();
+  const updateFilters = ({ searchOption, queryText, recipeType }) => {
+    setFilters({
+      searchOption,
+      queryText,
+      recipeType,
+    });
   };
 
   useAsyncEffect(async () => {
-    setRecipies([]);
+    if (!filters.searchOption) return;
+    const recipiesToSet = await fetchData.get(filters);
+    setRecipies(recipiesToSet);
   }, [filters]);
 
   return (
