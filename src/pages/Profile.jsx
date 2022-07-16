@@ -4,7 +4,6 @@ import { useLocalStorage } from '../assets/hooks';
 
 function Profile() {
   const history = useHistory();
-
   const { email } = useLocalStorage('user');
 
   const handleClickLogout = () => {
@@ -14,7 +13,7 @@ function Profile() {
 
   return (
     <div>
-      <h3 data-testid="profile-email">{email}</h3>
+      <h3 data-testid="profile-email">{ email }</h3>
       <button
         data-testid="profile-done-btn"
         type="button"
