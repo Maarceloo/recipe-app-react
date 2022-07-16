@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-
 const SimpleCard = ({ thumb, name, testid }) => (
   <div data-testid={ testid }>
     <img src={ thumb } alt={ name } />
