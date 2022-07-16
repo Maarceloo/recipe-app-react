@@ -4,7 +4,8 @@ import { fetchData } from '../assets/api';
 import { useAsyncEffect } from '../assets/hooks';
 import useRecipeType from '../assets/hooks/useRecipeType';
 import { getYoutubeEmbedURL, mapIngredients } from '../assets/functions/index';
-import SimpleCard from '../components/SimpleCard';
+// import SimpleCard from '../components/SimpleCard';
+import SugestionsCarousel from '../components/SugestionsCarousel';
 
 const RecipeDetails = () => {
   // busca caminho da URL
@@ -43,7 +44,7 @@ const RecipeDetails = () => {
     : undefined;
 
   return (
-    <>
+    <div className="recipe-wrapper">
       <section>
         <img
           src={ recipe[`str${recipeType}Thumb`] }
@@ -77,17 +78,10 @@ const RecipeDetails = () => {
           />
         )}
       </section>
-      <aside data-testid="recomendation-card">
-        {sugestions.map((sugRec, i) => (
-          <SimpleCard
-            testid={ `${i}-recomendation-card` }
-            key={ sugRec.strId }
-            thumb={ sugRec[`str${sugestionsType}Thumb`] }
-            name={ sugRec[`str${sugestionsType}`] }
-          />
-        ))}
+      <aside className="carousel">
+        <SugestionsCarousel sugestions={ sugestions } />
       </aside>
-    </>
+    </div>
   );
 };
 
