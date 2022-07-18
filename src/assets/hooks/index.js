@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { pushToJSONArray } from '../functions';
+import { pushToJSONArray, removeFromJSONArray } from '../functions';
 
 export const useAsyncEffect = (effect, deps) => {
   useEffect(() => {
@@ -8,7 +8,6 @@ export const useAsyncEffect = (effect, deps) => {
 };
 
 export const changeLocalStorage = (key, value, computeType) => {
-  console.log('chamou');
   if (!key) return localStorage.clear();
 
   const opType = value !== undefined ? 'set' : 'get';

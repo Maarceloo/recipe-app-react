@@ -14,7 +14,7 @@ const RecipeDetails = () => {
   } = useRouteMatch();
   const { push } = useHistory();
   // seta os estados do componente
-  const [recipe, setRecipe] = useState('');
+  const [recipe, setRecipe] = useState({});
   const [ingredients, setIngredients] = useState([]);
   const [sugestions, setSugestions] = useState([]);
   // busca os tipos
@@ -56,7 +56,7 @@ const RecipeDetails = () => {
 
   return (
     <div className="recipe-wrapper">
-      <ShareAndLike />
+      <ShareAndLike recipe={ recipe } />
       <section>
         <img
           src={ recipe[`str${recipeType}Thumb`] }

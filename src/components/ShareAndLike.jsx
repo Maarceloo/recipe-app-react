@@ -1,29 +1,24 @@
 import React, { useState } from 'react';
-// import * as clip from 'clipboardy';
-// import { useHistory } from 'react-router-dom';
+import propTypes from 'prop-types';
 import shareIco from '../images/shareIcon.svg';
 import toFavIco from '../images/whiteHeartIcon.svg';
 import favIco from '../images/blackHeartIcon.svg';
+import parseToFav from '../assets/functions/parseToFav';
 import { changeLocalStorage } from '../assets/hooks';
+import useRecipeType from '../assets/hooks/useRecipeType';
 
-export default function ShareAndLike() {
+export default function ShareAndLike({ recipe }) {
   const [copiedAlert, fireAlert] = useState(false);
+  const [, forceReload] = useState(true);
+  const recipeType = useRecipeType();
 
-  // const history = useHistory();
-  const checkFavs = changeLocalStorage('favoriteRecipes');
+  const parsedToFavorites = parseToFav(recipe, recipeType);
+  const { id } = parsedToFavorites;
 
-  // const shareRecipe = async () => {
-  //  const timeAlertisVisible = 3000;
-  //  const promise = await clip.write(window.location.href)
-  //   .then(() => clip.read());
-  //  const { pathname } = history.location;
+  const favsKey = changeLocalStorage('favoriteRecipes');
+  const checkFavs = () => favsKey !== null && favsKey.some((favRec) => favRec.id === id);
 
-  //  if (!promise.includes(pathname)) {
-  //     throw new Error('copy failed');
-  //  }
-  //  fireAlert(true);
-  //  setTimeout(() => fireAlert(false), timeAlertisVisible);
-  // };
+  const heartIco = checkFavs() ? favIco : toFavIco;
 
   const shareRecipe = () => {
     const timeAlertisVisible = 3000;
@@ -33,7 +28,13 @@ export default function ShareAndLike() {
   };
 
   const likeRecipe = () => {
-    console.log('liked recipe');
+    if (favsKey === null) {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([]));
+    }
+    forceReload((old) => !old);
+    return checkFavs()
+      ? changeLocalStorage('favoriteRecipes', id, 'arrayRemove')
+      : changeLocalStorage('favoriteRecipes', parsedToFavorites, 'arrayPush');
   };
 
   return (
@@ -46,9 +47,21 @@ export default function ShareAndLike() {
       <button type="button" data-testid="share-btn" onClick={ shareRecipe }>
         <img src={ shareIco } alt="share this recipe" />
       </button>
-      <button type="button" data-testid="favorite-btn" onClick={ likeRecipe }>
-        <img src={ checkFavs ? favIco : toFavIco } alt="Give this recipe a heart" />
+      <button
+        id="favorite-btn"
+        src={ heartIco }
+        type="button"
+        data-testid="favorite-btn"
+        onClick={ likeRecipe }
+      >
+        <img src={ heartIco } alt="like or dislike this recipe" />
       </button>
     </div>
   );
 }
+
+ShareAndLike.propTypes = {
+  recipe: propTypes.shape({
+    strCategory: propTypes.string,
+  }).isRequired,
+};
