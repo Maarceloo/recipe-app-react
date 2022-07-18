@@ -8,7 +8,6 @@ export const useAsyncEffect = (effect, deps) => {
 };
 
 export const changeLocalStorage = (key, value, computeType) => {
-  console.log('chamou');
   if (!key) return localStorage.clear();
 
   const opType = value !== undefined ? 'set' : 'get';
