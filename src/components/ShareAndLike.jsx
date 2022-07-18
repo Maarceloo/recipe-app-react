@@ -4,13 +4,13 @@ import React, { useState } from 'react';
 import shareIco from '../images/shareIcon.svg';
 import toFavIco from '../images/whiteHeartIcon.svg';
 import favIco from '../images/blackHeartIcon.svg';
-import { useLocalStorage } from '../assets/hooks';
+import { changeLocalStorage } from '../assets/hooks';
 
 export default function ShareAndLike() {
   const [copiedAlert, fireAlert] = useState(false);
 
   // const history = useHistory();
-  const checkFavs = useLocalStorage('favoriteRecipes');
+  const checkFavs = changeLocalStorage('favoriteRecipes');
 
   // const shareRecipe = async () => {
   //  const timeAlertisVisible = 3000;

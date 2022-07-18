@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useRouteMatch, useHistory } from 'react-router-dom';
 import { fetchData } from '../assets/api';
-import { useAsyncEffect, useLocalStorage } from '../assets/hooks';
+import { useAsyncEffect, changeLocalStorage } from '../assets/hooks';
 import useRecipeType from '../assets/hooks/useRecipeType';
 import { getYoutubeEmbedURL, mapIngredients } from '../assets/functions/index';
 import SugestionsCarousel from '../components/SugestionsCarousel';
@@ -25,8 +25,8 @@ const RecipeDetails = () => {
   // declara constantes usadas somente aqui
   const desiredSugestionsAmount = 6;
   // uso do localStorage
-  const donesKey = useLocalStorage('doneRecipes');
-  const progKey = useLocalStorage('inProgressRecipes');
+  const donesKey = changeLocalStorage('doneRecipes');
+  const progKey = changeLocalStorage('inProgressRecipes');
   // checa se receita já foi feita ou se já foi iniciada
   const checkDone = donesKey && donesKey.some((done) => done.id === id);
   const checkProgress = progKey
