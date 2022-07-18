@@ -7,7 +7,7 @@ export const useAsyncEffect = (effect, deps) => {
   }, deps);
 };
 
-export const useLocalStorage = (key, value, computeType) => {
+export const changeLocalStorage = (key, value, computeType) => {
   if (!key) return localStorage.clear();
 
   const opType = value !== undefined ? 'set' : 'get';
