@@ -7,7 +7,8 @@ export const useAsyncEffect = (effect, deps) => {
   }, deps);
 };
 
-export const useLocalStorage = (key, value, computeType) => {
+export const changeLocalStorage = (key, value, computeType) => {
+  console.log('chamou');
   if (!key) return localStorage.clear();
 
   const opType = value !== undefined ? 'set' : 'get';
@@ -21,8 +22,8 @@ export const useLocalStorage = (key, value, computeType) => {
     arrayPush: () => pushToJSONArray(localItem, value),
     arrayRemove: () => removeFromJSONArray(localItem, value),
     setUser: () => {
-      localToObj.email = value;
-      return JSON.stringify(localToObj);
+      const user = { email: value };
+      return JSON.stringify(user);
     },
     updateProgress: () => {
       const modifiedObj = {

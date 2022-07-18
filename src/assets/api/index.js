@@ -8,7 +8,7 @@ const getQueryPath = (searchOption) => {
     byCategory: 'filter.php?c=',
     byId: 'lookup.php?i=',
     getCategoryList: 'list.php?c=',
-  };
+};
 
   return options[searchOption];
 };
