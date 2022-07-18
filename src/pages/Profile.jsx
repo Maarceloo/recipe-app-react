@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useLocalStorage } from '../assets/hooks';
 
 function Profile() {
   const history = useHistory();
-  const { email } = useLocalStorage('user');
+
+  const [usuario] = useState(useLocalStorage('user'));
+  const { email } = usuario != null ? usuario : 'Sem email';
+  // profile nao renderiza,caso localStorage vazio, erro requisito 17
+  // const { email } = useLocalStorage('user');
 
   const handleClickLogout = () => {
-    localStorage.clear();
     history.push('/');
+    localStorage.clear();
   };
 
   return (

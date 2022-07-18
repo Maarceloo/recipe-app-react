@@ -12,7 +12,6 @@ function Footer() {
         type="button"
         onClick={ () => history.push('/drinks') }
         // exact inserido em routes para evitar vazamento do footer em '/drinks/:id'
-        // profile nao renderiza,caso localStorage vazio, erro requisito 17
       >
         <img
           data-testid="drinks-bottom-btn"
