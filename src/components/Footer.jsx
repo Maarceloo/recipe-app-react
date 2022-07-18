@@ -11,7 +11,6 @@ function Footer() {
       <button
         type="button"
         onClick={ () => history.push('/drinks') }
-        // exact inserido em routes para evitar vazamento do footer em '/drinks/:id'
       >
         <img
           data-testid="drinks-bottom-btn"

@@ -1,14 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useLocalStorage } from '../assets/hooks';
 
 function Profile() {
   const history = useHistory();
 
-  const [usuario] = useState(useLocalStorage('user'));
-  const { email } = usuario != null ? usuario : 'Sem email';
-  // profile nao renderiza,caso localStorage vazio, erro requisito 17
-  // const { email } = useLocalStorage('user');
+  const user = useLocalStorage('user');
 
   const handleClickLogout = () => {
     history.push('/');
@@ -17,7 +14,7 @@ function Profile() {
 
   return (
     <div>
-      <h3 data-testid="profile-email">{ email }</h3>
+      { user && (<h3 data-testid="profile-email">{ user.email }</h3>)}
       <button
         data-testid="profile-done-btn"
         type="button"

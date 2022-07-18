@@ -21,8 +21,7 @@ export const useLocalStorage = (key, value, computeType) => {
     arrayPush: () => pushToJSONArray(localItem, value),
     arrayRemove: () => removeFromJSONArray(localItem, value),
     setUser: () => {
-      localToObj.email = value;
-      return JSON.stringify(localToObj);
+      const user = { email: value }; return JSON.stringify(user);
     },
     updateProgress: () => {
       const modifiedObj = {
