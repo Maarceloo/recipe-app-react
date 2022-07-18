@@ -23,9 +23,10 @@ const RecipeDetails = () => {
   const donesKey = useLocalStorage('doneRecipes');
   const progKey = useLocalStorage('inProgressRecipes');
   const checkDone = donesKey && donesKey.some((done) => done.id === id);
-  const storageRecipeTypes = sugestionsType === 'Meal' ? 'meals' : 'cocktails';
-  const checkProgress = progKey && Object.keys(progKey[storageRecipeTypes]).includes(id);
-  console.log(progKey)
+  const storageRecipeTypes = recipeType === 'Meal' ? 'meals' : 'cocktails';
+  const checkProgress = progKey
+    && progKey[storageRecipeTypes]
+    && Object.keys(progKey[storageRecipeTypes]).includes(`${id}`);
 
   // 'willMount'
   useAsyncEffect(async () => {
