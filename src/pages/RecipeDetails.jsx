@@ -5,6 +5,7 @@ import { useAsyncEffect, useLocalStorage } from '../assets/hooks';
 import useRecipeType from '../assets/hooks/useRecipeType';
 import { getYoutubeEmbedURL, mapIngredients } from '../assets/functions/index';
 import SugestionsCarousel from '../components/SugestionsCarousel';
+import ShareAndLike from '../components/ShareAndLike';
 
 const RecipeDetails = () => {
   // busca caminho da URL
@@ -55,10 +56,7 @@ const RecipeDetails = () => {
 
   return (
     <div className="recipe-wrapper">
-      {/* <div>
-        <button type="button"
-        data-testid=""
-      </div> */}
+      <ShareAndLike />
       <section>
         <img
           src={ recipe[`str${recipeType}Thumb`] }
