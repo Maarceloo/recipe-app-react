@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useRouteMatch } from 'react-router-dom';
+import { useRouteMatch, useHistory } from 'react-router-dom';
 import { fetchData } from '../assets/api';
 import { useAsyncEffect, useLocalStorage } from '../assets/hooks';
 import useRecipeType from '../assets/hooks/useRecipeType';
@@ -11,6 +11,7 @@ const RecipeDetails = () => {
   const {
     params: { id },
   } = useRouteMatch();
+  const { push } = useHistory();
   // seta os estados do componente
   const [recipe, setRecipe] = useState('');
   const [ingredients, setIngredients] = useState([]);
@@ -18,12 +19,15 @@ const RecipeDetails = () => {
   // busca os tipos
   const recipeType = useRecipeType();
   const sugestionsType = recipeType === 'Meal' ? 'Drink' : 'Meal';
+  const storageRecipeTypes = recipeType === 'Meal' ? 'meals' : 'cocktails';
+  const pathTypes = recipeType === 'Meal' ? 'foods' : 'drinks';
   // declara constantes usadas somente aqui
   const desiredSugestionsAmount = 6;
+  // uso do localStorage
   const donesKey = useLocalStorage('doneRecipes');
   const progKey = useLocalStorage('inProgressRecipes');
+  // checa se receita já foi feita ou se já foi iniciada
   const checkDone = donesKey && donesKey.some((done) => done.id === id);
-  const storageRecipeTypes = recipeType === 'Meal' ? 'meals' : 'cocktails';
   const checkProgress = progKey
     && progKey[storageRecipeTypes]
     && Object.keys(progKey[storageRecipeTypes]).includes(`${id}`);
@@ -49,10 +53,12 @@ const RecipeDetails = () => {
     ? getYoutubeEmbedURL(recipe.strYoutube)
     : undefined;
 
-  const handleFinalButt = () => console.log(started);
-
   return (
     <div className="recipe-wrapper">
+      {/* <div>
+        <button type="button"
+        data-testid=""
+      </div> */}
       <section>
         <img
           src={ recipe[`str${recipeType}Thumb`] }
@@ -93,7 +99,7 @@ const RecipeDetails = () => {
         <button
           type="button"
           data-testid="start-recipe-btn"
-          onClick={ handleFinalButt }
+          onClick={ () => push(`/${pathTypes}/${id}/in-progress`) }
           className="final-button"
         >
           {checkProgress ? 'Continue Recipe' : 'Start Recipe'}

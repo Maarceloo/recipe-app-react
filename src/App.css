@@ -118,4 +118,5 @@ img {
 .final-button {
   bottom: 0;
   position: fixed;
+  z-index: 100;
 }
