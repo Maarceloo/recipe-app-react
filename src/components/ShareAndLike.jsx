@@ -39,7 +39,7 @@ export default function ShareAndLike() {
   return (
     <div className="share-and-like">
       {copiedAlert && (
-        <div>
+        <div className="alert alert-success position-absolute" role="alert">
           Link copied!
         </div>
       )}
