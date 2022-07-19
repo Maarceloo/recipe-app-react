@@ -68,6 +68,11 @@
   }
 } */
 
+footer {
+  bottom: 0;
+  position: fixed;
+}
+
 * {
   max-height: 640px;
   max-width: 360px;
