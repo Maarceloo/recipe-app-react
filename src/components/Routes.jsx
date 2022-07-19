@@ -16,12 +16,12 @@ const Routes = () => (
     <Route exact path="/">
       <Login />
     </Route>
-    <Route path={ ['/foods', '/drinks'] }>
+    <Route exact path={ ['/foods', '/drinks'] }>
       <Header />
       <Recipes />
       <Footer />
     </Route>
-    <Route path={ ['/foods/:id', '/drinks/:id'] }>
+    <Route exact path={ ['/foods/:id', '/drinks/:id'] }>
       <RecipeDetails />
     </Route>
     <Route path={ ['/foods/:id/in-progress', '/drinks/:id/in-progress'] }>
