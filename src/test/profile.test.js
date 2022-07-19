@@ -4,12 +4,12 @@ import userEvent from '@testing-library/user-event';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 import Profile from '../pages/Profile';
-import { useLocalStorage } from '../assets/hooks';
+import { changeLocalStorage } from '../assets/hooks';
 
 describe('Testando a pagina Profile.js', () => {
   it('Verificando se elementos sao renderizados', async () => {
     const history = createMemoryHistory();
-    useLocalStorage('user', 'trybe@trybe.com', 'setUser');
+    changeLocalStorage('user', 'trybe@trybe.com', 'setUser');
     render(
       <Router history={ history }>
         <Profile />

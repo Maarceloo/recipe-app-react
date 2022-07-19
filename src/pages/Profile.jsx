@@ -1,11 +1,11 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { useLocalStorage } from '../assets/hooks';
+import { changeLocalStorage } from '../assets/hooks';
 
 function Profile() {
   const history = useHistory();
 
-  const user = useLocalStorage('user');
+  const user = changeLocalStorage('user');
 
   const handleClickLogout = () => {
     history.push('/');
