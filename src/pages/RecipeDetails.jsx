@@ -55,7 +55,7 @@ const RecipeDetails = () => {
     : undefined;
 
   return (
-    <div className="recipe-wrapper">
+    <div className="recipe-wrapper" data-testid="recipe-wrapper">
       <ShareAndLike recipe={ recipe } />
       <section>
         <img

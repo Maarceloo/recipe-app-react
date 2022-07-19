@@ -6,9 +6,11 @@ import Routes from './components/Routes';
 
 function App() {
   return (
-    <Provider>
-      <Routes />
-    </Provider>
+    <div data-testid="root">
+      <Provider>
+        <Routes />
+      </Provider>
+    </div>
   );
 }
 
