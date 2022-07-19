@@ -16,7 +16,7 @@ const Routes = () => (
     <Route exact path="/">
       <Login />
     </Route>
-    <Route path={ ['/foods', '/drinks'] }>
+    <Route exact path={ ['/foods', '/drinks'] }>
       <Header />
       <Recipes />
       <Footer />
