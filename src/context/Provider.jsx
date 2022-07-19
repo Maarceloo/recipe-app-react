@@ -5,6 +5,7 @@ import AppContext from '.';
 import { fetchData } from '../assets/api';
 
 function Provider({ children }) {
+  const [pageTitle, setPageTitle] = useState('');
   const [filters, setFilters] = useState({
     searchOption: '', // s = name, f = first letter, i = ingredient, c = category;
     queryText: '',
@@ -27,7 +28,7 @@ function Provider({ children }) {
   }, [filters]);
 
   return (
-    <AppContext.Provider value={ { recipies, updateFilters } }>
+    <AppContext.Provider value={ { recipies, updateFilters, setPageTitle, pageTitle } }>
       {children}
     </AppContext.Provider>
   );

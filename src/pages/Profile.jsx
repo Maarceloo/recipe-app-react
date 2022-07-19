@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
+
 import { useHistory } from 'react-router-dom';
 import { changeLocalStorage } from '../assets/hooks';
+import AppContext from '../context';
 
 function Profile() {
+  const { setPageTitle } = useContext(AppContext);
+  useEffect(() => {
+    setPageTitle('Profile');
+  }, []);
+
   const history = useHistory();
 
   const user = changeLocalStorage('user');

@@ -31,6 +31,7 @@ const SearchBar = () => {
         type="text"
         name="queryText"
         value={ formData.queryText }
+        data-testid="search-input"
       />
       <div>
         <label htmlFor="ingredient">

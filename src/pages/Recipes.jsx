@@ -13,7 +13,7 @@ const CATEGORY_LIMIT = 5;
 const Recipes = () => {
   const [categoryList, setCategoryList] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
-  const { updateFilters, recipies } = useContext(AppContext);
+  const { updateFilters, recipies, setPageTitle } = useContext(AppContext);
   const recipeType = useRecipeType();
 
   const fetchDefault = () => {
@@ -22,7 +22,8 @@ const Recipes = () => {
 
   useEffect(() => {
     fetchDefault();
-  }, []);
+    setPageTitle(recipeType === 'Meal' ? 'Foods' : 'Drinks');
+  }, [recipeType]);
 
   useAsyncEffect(async () => {
     setCategoryList(await fetchData.categoryList({ recipeType }));
