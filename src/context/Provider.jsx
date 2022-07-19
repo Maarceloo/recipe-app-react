@@ -11,7 +11,7 @@ function Provider({ children }) {
     queryText: '',
     recipeType: '',
   });
-  const [recipies, setRecipies] = useState([]);
+  const [recipes, setRecipes] = useState([]);
 
   const updateFilters = ({ searchOption, queryText, recipeType }) => {
     setFilters({
@@ -23,12 +23,12 @@ function Provider({ children }) {
 
   useAsyncEffect(async () => {
     if (!filters.searchOption) return;
-    const recipiesToSet = await fetchData.get(filters);
-    setRecipies(recipiesToSet);
+    const recipesToSet = await fetchData.get(filters);
+    setRecipes(recipesToSet);
   }, [filters]);
 
   return (
-    <AppContext.Provider value={ { recipies, updateFilters, setPageTitle, pageTitle } }>
+    <AppContext.Provider value={ { recipes, updateFilters, setPageTitle, pageTitle } }>
       {children}
     </AppContext.Provider>
   );

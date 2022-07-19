@@ -25,7 +25,7 @@ const computeFetch = async ({ searchOption, recipeType, queryText }) => {
     );
 
     const data = await res.json();
-    return Object.values(data)[0];
+    return Object.values(data)[0] || [];
   } catch (error) {
     console.error(error);
     return ['Not Found'];
