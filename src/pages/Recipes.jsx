@@ -12,8 +12,8 @@ const RECIPES_LIMIT = 12;
 const CATEGORY_LIMIT = 5;
 
 const Recipes = () => {
-  const isInitialMount = useRef(true);
   const history = useHistory();
+  const isInitialMount = useRef(true);
   const [categoryList, setCategoryList] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
   const { updateFilters, recipes, setPageTitle } = useContext(AppContext);
@@ -23,7 +23,10 @@ const Recipes = () => {
     if (recipes.length !== 1) return;
     const typeUrl = recipeType === 'Meal' ? 'foods' : 'drinks';
     const recipe = parseRecipe(recipes[0], recipeType);
-    history.push(`/${typeUrl}/${recipe.id}`);
+    const time = 200;
+    setTimeout(() => {
+      history.push(`/${typeUrl}/${recipe.id}`);
+    }, time);
   }, [recipes]);
 
   useEffect(() => {
@@ -66,6 +69,13 @@ const Recipes = () => {
   return (
     <>
       <div>
+        <button
+          onClick={ () => updateCategories(selectedCategory) }
+          type="button"
+          data-testid="All-category-filter"
+        >
+          All
+        </button>
         {cutCategories.map(({ strCategory }) => (
           <button
             onClick={ () => updateCategories(strCategory) }
