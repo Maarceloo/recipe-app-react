@@ -1,8 +1,6 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import { createMemoryHistory } from 'history';
-import { Router } from 'react-router-dom';
 import Header from  '../components/Header'
 import renderWithRouter from './helpers/renderWithRouter';
 

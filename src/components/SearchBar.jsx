@@ -23,7 +23,7 @@ const SearchBar = () => {
     e.preventDefault();
 
     if (formData.searchOption === 'byFirstLetter'
-    || formData.queryText.length > 1
+    && formData.queryText.length > 1
     ) {
       alert('Your search must have only 1 (one) character');
     }
