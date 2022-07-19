@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
+import AppContext from '../context';
 
-const FavoriteRecipes = () => (
-  <div>FavoriteRecipes</div>
-);
+const FavoriteRecipes = () => {
+  const { setPageTitle } = useContext(AppContext);
+  useEffect(() => {
+    setPageTitle('Favorite Recipes');
+  }, []);
+
+  return (
+    <div>FavoriteRecipes</div>
+  );
+};
 
 export default FavoriteRecipes;
