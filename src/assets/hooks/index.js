@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { pushToJSONArray } from '../functions';
+import { pushToJSONArray, removeFromJSONArray } from '../functions';
 
 export const useAsyncEffect = (effect, deps) => {
   useEffect(() => {

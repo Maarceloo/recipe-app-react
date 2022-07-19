@@ -21,7 +21,7 @@ const Routes = () => (
       <Recipes />
       <Footer />
     </Route>
-    <Route path={ ['/foods/:id', '/drinks/:id'] }>
+    <Route exact path={ ['/foods/:id', '/drinks/:id'] }>
       <RecipeDetails />
     </Route>
     <Route path={ ['/foods/:id/in-progress', '/drinks/:id/in-progress'] }>
