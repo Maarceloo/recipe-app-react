@@ -23,7 +23,7 @@ const SugestionCarousel = ({ sugestions = [] }) => {
             <div className="sugestion-carousel">
               <div className="card-wrapper">
                 <h3 data-testid={ `${i}-recomendation-title` }>{obj.name}</h3>
-                <SimpleCard { ...obj } />
+                <SimpleCard { ...obj } testid={ `${i}-recomendation-card` } />
               </div>
               <div className="card-wrapper-two">
                 <SimpleCard

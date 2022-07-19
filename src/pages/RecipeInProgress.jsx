@@ -1,12 +1,16 @@
 import React from 'react';
-import { useRouteMatch } from 'react-router-dom';
+import { useRouteMatch, useHistory } from 'react-router-dom';
 
 const RecipeInProgress = () => {
   const {
     params: { id },
   } = useRouteMatch();
+  const history = useHistory();
   return (
-    <p>{id}</p>
+    <>
+      <p>{id}</p>
+      <p>{history.location.pathname}</p>
+    </>
   );
 };
 

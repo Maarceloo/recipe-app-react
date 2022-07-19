@@ -4,14 +4,17 @@ import userEvent from '@testing-library/user-event';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 import Footer from '../components/Footer';
+import Provider from '../context/Provider';
 
 describe('Testando componente Footer.js', () => {
   it('Verifica botões', () => {
     const history = createMemoryHistory();
     render(
-      <Router history={ history }>
-        <Footer />
-      </Router>,
+      <Provider>
+        <Router history={ history }>
+          <Footer />
+        </Router>
+      </Provider>,
     );
 
     const btnDrink = screen.getByTestId('drinks-bottom-btn');
