@@ -1,8 +1,8 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Login from './pages/Login';
-import renderWithRouter from './assets/functions/renderWithRouter';
+import Login from '../pages/Login';
+import renderWithRouter from './helpers/renderWithRouter';
 
 describe('Pagina de Login', () => {
   it('Verifica se o titulo email esta na tela', () => {
