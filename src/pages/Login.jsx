@@ -28,6 +28,8 @@ const Login = () => {
 
   const onButtonClick = () => {
     changeLocalStorage('user', email, 'setUser');
+    localStorage.setItem('mealsToken', 1);
+    localStorage.setItem('cocktailsToken', 1);
 
     setRedirect('/foods');
   };
