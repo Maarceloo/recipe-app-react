@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useRouteMatch } from 'react-router-dom';
+import { useRouteMatch, useHistory } from 'react-router-dom';
 import { fetchData } from '../assets/api';
 import { mapIngredients } from '../assets/functions';
 import { useAsyncEffect, changeLocalStorage } from '../assets/hooks';
 import useRecipeType from '../assets/hooks/useRecipeType';
+import ShareAndLike from '../components/ShareAndLike';
 
 const RecipeDetails = () => {
+  const history = useHistory();
   // busca caminho da URL
   const {
     params: { id },
@@ -64,6 +66,11 @@ const RecipeDetails = () => {
     );
   }, [usedIng]);
 
+  const finishRecipe = () => {
+    console.log(recipe);
+    history.push('/done-recipes');
+  };
+
   const checkIngredient = (name) => usedIng.some((ingred) => ingred === name);
 
   const handleClick = ({ target }) => (target.checked
@@ -78,13 +85,8 @@ const RecipeDetails = () => {
           alt={ recipe[`str${recipeType}`] }
           data-testid="recipe-photo"
         />
+        <ShareAndLike recipe={ recipe } />
         <h2 data-testid="recipe-title">{recipe[`str${recipeType}`]}</h2>
-        <button data-testid="share-btn" type="button" onClick={ null }>
-          Compartilhar
-        </button>
-        <button data-testid="favorite-btn" type="button" onClick={ null }>
-          Favoritar
-        </button>
         <p data-testid="recipe-category">
           {recipeType === 'Meal' ? recipe.strCategory : recipe.strAlcoholic}
         </p>
@@ -107,7 +109,8 @@ const RecipeDetails = () => {
         <button
           type="button"
           data-testid="finish-recipe-btn"
-          onClick={ null }
+          onClick={ finishRecipe }
+          disabled={ (usedIng.length !== ingredients.length) }
           className="final-button"
         >
           Finalizar
