@@ -21,10 +21,10 @@ export default function ShareAndLike({ recipe }) {
   const heartIco = checkFavs() ? favIco : toFavIco;
 
   const shareRecipe = () => {
-    const timeAlertisVisible = 3000;
+    const timeAlertIsVisible = 3000;
     navigator.clipboard.writeText(window.location.href);
     fireAlert(true);
-    setTimeout(() => fireAlert(false), timeAlertisVisible);
+    setTimeout(() => fireAlert(false), timeAlertIsVisible);
   };
 
   const likeRecipe = () => {
