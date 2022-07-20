@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import { fetchData } from '../assets/api';
 import { mapIngredients } from '../assets/functions';
@@ -13,14 +13,20 @@ const RecipeDetails = () => {
   // seta os estados do componente
   const [recipe, setRecipe] = useState({});
   const [ingredients, setIngredients] = useState([]);
+  const [usedIng, setUsedIng] = useState([]);
   // busca os tipos
   const recipeType = useRecipeType();
+  const localStgType = recipeType === 'Meal' ? 'meals' : 'cocktails';
 
   // uso do localStorage
   const donesKey = changeLocalStorage('doneRecipes');
+  const progKey = changeLocalStorage('inProgressRecipes');
 
   // checa se receita já foi feita ou se já foi iniciada
   const checkDone = donesKey && donesKey.some((done) => done.id === id);
+  const checkProg = progKey && progKey[localStgType] && progKey[localStgType][id]
+    ? progKey[localStgType][id]
+    : false;
 
   // 'willMount'
   useAsyncEffect(async () => {
@@ -30,9 +36,31 @@ const RecipeDetails = () => {
     setIngredients(mapIngredients(actual[0]).filter((ing) => ing.name !== ''));
   }, []);
 
-  const handleClick = ({ target }) => {
-    console.log(target.value);
-  };
+  useEffect(() => {
+    // busca localStorage e popula o estado usedIng
+    changeLocalStorage(
+      'inProgressRecipes',
+      JSON.stringify({ meals: {}, cocktails: {} }),
+      'replace',
+    );
+    if (checkProg) {
+      setUsedIng(checkProg);
+    }
+  }, []);
+
+  useEffect(() => {
+    changeLocalStorage(
+      'inProgressRecipes',
+      { type: localStgType, id, ingredients: usedIng },
+      'updateProgress',
+    );
+  }, [usedIng]);
+
+  const checkIngredient = (name) => usedIng.some((ingred) => ingred === name);
+
+  const handleClick = ({ target }) => (target.checked
+    ? setUsedIng((old) => [...old, target.value])
+    : setUsedIng((old) => old.filter((name) => name !== target.value)));
 
   return (
     <div className="recipe-wrapper" data-testid="recipe-wrapper">
@@ -43,21 +71,11 @@ const RecipeDetails = () => {
           data-testid="recipe-photo"
         />
         <h2 data-testid="recipe-title">{recipe[`str${recipeType}`]}</h2>
-        <button
-          data-testid="share-btn"
-          type="button"
-          onClick={ null }
-        >
+        <button data-testid="share-btn" type="button" onClick={ null }>
           Compartilhar
-
         </button>
-        <button
-          data-testid="favorite-btn"
-          type="button"
-          onClick={ null }
-        >
+        <button data-testid="favorite-btn" type="button" onClick={ null }>
           Favoritar
-
         </button>
         <p data-testid="recipe-category">
           {recipeType === 'Meal' ? recipe.strCategory : recipe.strAlcoholic}
@@ -69,7 +87,8 @@ const RecipeDetails = () => {
                 type="checkbox"
                 id={ index }
                 value={ ingredient.name }
-                onClick={ handleClick }
+                onChange={ handleClick }
+                checked={ checkIngredient(ingredient.name) }
               />
               {`${ingredient.name} - ${ingredient.amount}`}
             </p>
