@@ -11,25 +11,23 @@ export const removeFromJSONArray = (jsonArr, id) => {
 };
 
 export const mapIngredients = (obj) => {
-  const ingredients = [];
-  let entries = Object.entries(obj);
-  entries = entries
-    .filter((entry) => entry[0].match(/.*\d/)?.length > 0)
-    .filter((entry) => entry[1] !== null);
-
-  for (let i = 0; i < entries.length / 2; i += 1) {
-    ingredients.push({
-      name: entries[i][1],
-      amount: entries[entries.length / 2 + i] ? entries[entries.length / 2 + i][1] : null,
-    });
-  }
-
-  return ingredients;
+  const entries = Object.entries(obj);
+  const names = entries.filter(
+    (entrie) => entrie[0].match(/strIngredient\d/) && entrie[1] !== null,
+  );
+  const amounts = entries.filter((entrie) => entrie[0].match(/strMeasure\d/));
+  return names.reduce((final, ingredient, i) => {
+    final.push({ name: ingredient[1], amount: amounts[i][1] });
+    return final;
+  }, []);
 };
 
 export const getYoutubeEmbedURL = (URLstring) => {
   const baseUrl = 'https://www.youtube.com/watch?v=';
-  return `https://www.youtube.com/embed/${URLstring.substring(baseUrl.length, URLstring.length)}/`;
+  return `https://www.youtube.com/embed/${URLstring.substring(
+    baseUrl.length,
+    URLstring.length,
+  )}/`;
 };
 
 export const dummy = '';
