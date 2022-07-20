@@ -18,15 +18,30 @@ const RecipeDetails = () => {
   const recipeType = useRecipeType();
   const localStgType = recipeType === 'Meal' ? 'meals' : 'cocktails';
 
-  // uso do localStorage
-  const donesKey = changeLocalStorage('doneRecipes');
-  const progKey = changeLocalStorage('inProgressRecipes');
-
-  // checa se receita já foi feita ou se já foi iniciada
-  const checkDone = donesKey && donesKey.some((done) => done.id === id);
-  const checkProg = progKey && progKey[localStgType] && progKey[localStgType][id]
-    ? progKey[localStgType][id]
-    : false;
+  // uso do localStorage -->
+  // seta done caso não exista;
+  const setDoneKey = () => changeLocalStorage('doneRecipes')
+    || changeLocalStorage('doneRecipes', JSON.stringify([]), 'replace');
+  setDoneKey();
+  // referencia a chave sem bugs;
+  const doneKey = changeLocalStorage('doneRecipes');
+  // checa se a receita já foi concluída
+  const checkDone = doneKey.some((done) => done.id === id);
+  // seta Progress caso não exista
+  const setInProgressKey = () => changeLocalStorage('inProgressRecipes')
+    || changeLocalStorage(
+      'inProgressRecipes',
+      JSON.stringify({ meals: {}, cocktails: {} }),
+      'replace',
+    );
+  setInProgressKey();
+  // referencia progress sem bugs;
+  const inProgressKey = changeLocalStorage('inProgressRecipes');
+  // checa se receita já foi iniciada
+  const checkProg = inProgressKey[localStgType][id]
+    ? inProgressKey[localStgType][id]
+    : [];
+  // <-- uso do LocalStorage
 
   // 'willMount'
   useAsyncEffect(async () => {
@@ -38,14 +53,7 @@ const RecipeDetails = () => {
 
   useEffect(() => {
     // busca localStorage e popula o estado usedIng
-    changeLocalStorage(
-      'inProgressRecipes',
-      JSON.stringify({ meals: {}, cocktails: {} }),
-      'replace',
-    );
-    if (checkProg) {
-      setUsedIng(checkProg);
-    }
+    setUsedIng(checkProg);
   }, []);
 
   useEffect(() => {
