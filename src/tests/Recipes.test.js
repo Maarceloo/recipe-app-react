@@ -208,7 +208,7 @@ describe('Testando página Recipes.jsx com /drinks', () => {
 
     await waitFor(() => expect(global.fetch).toHaveBeenCalled());
     expect(global.fetch).toHaveBeenCalledWith(
-      'https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Ordinary%20Drink',
+      'https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Ordinary Drink',
     );
   });
 
