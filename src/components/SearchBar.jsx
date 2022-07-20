@@ -21,6 +21,13 @@ const SearchBar = () => {
 
   const onFormSubmit = (e) => {
     e.preventDefault();
+
+    if (formData.searchOption === 'byFirstLetter'
+    && formData.queryText.length > 1
+    ) {
+      alert('Your search must have only 1 (one) character');
+    }
+
     updateFilters({ ...formData, recipeType });
   };
 
@@ -31,6 +38,7 @@ const SearchBar = () => {
         type="text"
         name="queryText"
         value={ formData.queryText }
+        data-testid="search-input"
       />
       <div>
         <label htmlFor="ingredient">
