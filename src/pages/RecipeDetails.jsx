@@ -31,7 +31,7 @@ const RecipeDetails = () => {
   const checkDone = donesKey && donesKey.some((done) => done.id === id);
   const checkProgress = progKey
     && progKey[storageRecipeTypes]
-    && Object.keys(progKey[storageRecipeTypes]).includes(`${id}`);
+    && Object.keys(progKey[storageRecipeTypes]).some((key) => key === id);
 
   // 'willMount'
   useAsyncEffect(async () => {
