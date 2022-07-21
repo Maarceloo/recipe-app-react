@@ -50,7 +50,10 @@ const Recipes = () => {
     setCategoryList(await fetchData.categoryList({ recipeType }));
   }, [recipeType]);
 
-  const cutRecipes = useMemo(() => recipes.slice(0, RECIPES_LIMIT), [recipes]);
+  const cutRecipes = useMemo(
+    () => (Array.isArray(recipes) ? recipes.slice(0, RECIPES_LIMIT) : []),
+    [recipes],
+  );
 
   const cutCategories = useMemo(
     () => categoryList.slice(0, CATEGORY_LIMIT), [categoryList],

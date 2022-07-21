@@ -1,4 +1,4 @@
-import { Route, BrowserRouter } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import React from 'react';
 import DoneRecipes from '../pages/DoneRecipes';
 import FavoriteRecipes from '../pages/FavoriteRecipes';
@@ -12,7 +12,7 @@ import Header from './Header';
 import Footer from './Footer';
 
 const Routes = () => (
-  <BrowserRouter>
+  <>
     <Route exact path="/">
       <Login />
     </Route>
@@ -40,7 +40,7 @@ const Routes = () => (
       <Profile />
       <Footer />
     </Route>
-  </BrowserRouter>
+  </>
 );
 
 export default Routes;
