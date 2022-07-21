@@ -21,7 +21,11 @@ const getUrl = (recipeType) => {
 const computeFetch = async ({ searchOption, recipeType, queryText }) => {
   try {
     const res = await fetch(
-      `${getUrl(recipeType)}${getQueryPath(searchOption)}${queryText}`,
+      `${getUrl(recipeType)}${getQueryPath(searchOption)}${
+        // encodeURI(
+        queryText
+        // )
+      }`,
     );
 
     const data = await res.json();

@@ -5,11 +5,13 @@ import { render } from '@testing-library/react';
 import Provider from '../../context/Provider';
 import AppContext from '../../context';
 
-const renderWithRouter = (
-  Component,
-  histOpt = {},
-) => {
-  const baseProviderValue = { recipes: [], updateFilters: () => {}, setPageTitle: () => {}, pageTitle: '' }
+const renderWithRouter = (Component, histOpt = {}) => {
+  const baseProviderValue = {
+    recipes: [],
+    updateFilters: () => {},
+    setPageTitle: () => {},
+    pageTitle: '',
+  };
 
   const getInitialEntries = () => {
     if (!histOpt.initialEntries && histOpt.route) {
@@ -26,11 +28,13 @@ const renderWithRouter = (
   });
   return {
     ...render(
-      <Router history={ history }>
-        <AppContext.Provider value={{...baseProviderValue, ...histOpt.providerValue}}>
+      <Router history={history}>
+        <AppContext.Provider
+          value={{ ...baseProviderValue, ...histOpt.providerValue }}
+        >
           <Route
-            render={ (props) => <Component { ...props } /> }
-            path={ histOpt.path ? histOpt.path : '' }
+            render={(props) => <Component {...props} />}
+            path={histOpt.path ? histOpt.path : ''}
           />
         </AppContext.Provider>
       </Router>,
