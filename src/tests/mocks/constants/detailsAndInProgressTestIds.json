@@ -1,0 +1,10 @@
+{
+  "TITLE_TESTID": "recipe-title",
+  "PHOTO_TESTID": "recipe-photo",
+  "SHARE_BTN_TESTID": "share-btn",
+  "FAV_BTN_TESTID": "favorite-btn",
+  "CATEGORY_TEXT_TESTID": "recipe-category",
+  "INGRIDIENT_ONE_TESTID": "0-ingredient-step",
+  "INSTRUCTIONS_TEXT_TESTID": "instructions",
+  "FINISH_BTN_TESTID": "finish-recipe-btn"
+}

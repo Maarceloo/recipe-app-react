@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import propTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import shareIco from '../images/shareIcon.svg';
 import toFavIco from '../images/whiteHeartIcon.svg';
 import favIco from '../images/blackHeartIcon.svg';
@@ -11,6 +12,12 @@ export default function ShareAndLike({ recipe }) {
   const [copiedAlert, fireAlert] = useState(false);
   const [, forceReload] = useState(true);
   const recipeType = useRecipeType();
+  const {
+    location: { pathname },
+  } = useHistory();
+  const {
+    location: { origin },
+  } = window;
 
   const parsedToFavorites = parseToFav(recipe, recipeType);
   const { id } = parsedToFavorites;
@@ -21,10 +28,17 @@ export default function ShareAndLike({ recipe }) {
   const heartIco = checkFavs() ? favIco : toFavIco;
 
   const shareRecipe = () => {
-    const timeAlertisVisible = 3000;
-    navigator.clipboard.writeText(window.location.href);
+    const timeAlertIsVisible = 3000;
+    const inProgressPath = '/in-progress';
+    const textToClip = pathname.includes(inProgressPath)
+      ? `${origin}${pathname.substring(
+        0,
+        pathname.length - inProgressPath.length,
+      )}`
+      : `${origin}${pathname}`;
+    navigator.clipboard.writeText(textToClip);
     fireAlert(true);
-    setTimeout(() => fireAlert(false), timeAlertisVisible);
+    setTimeout(() => fireAlert(false), timeAlertIsVisible);
   };
 
   const likeRecipe = () => {
