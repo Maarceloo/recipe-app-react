@@ -26,7 +26,7 @@
     "meals": {
       "idOfTheFood": ["some", "ingredients", "to", "fill", "with", "whatever", "type", "of", "data", "you", "choose"]
     },
-    "drinks": {
+    "cocktails": {
       "idOfTheDrink": ["some", "ingredients", "to", "fill", "with", "whatever", "type", "of", "data", "you", "choose"]
     }
   }

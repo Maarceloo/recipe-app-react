@@ -1,9 +1,11 @@
 import { cleanup, screen, waitFor } from '@testing-library/react';
-import foods from './mocks/FOODS_NO_NAME_RESPONSE.json';
-import { drinkDetailed } from './mocks/RECIPE_DETAILS_RESPONSE';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './helpers/renderWithRouter';
 import RecipeInProgress from '../pages/RecipeInProgress';
+import IN_PROGRESS_STORE from './mocks/localStorage/IN_PROGRESS_STORE'
+import foods from './mocks/FOODS_NO_NAME_RESPONSE.json';
+import drinks from './mocks/DRINKS_NO_NAME_RESPONSE.json'
+import { drinkDetailed, foodDetailed } from './mocks/RECIPE_DETAILS_RESPONSE';
 import { mockLocalStorage } from './helpers/fakeLocalStorage';
 import {
   PHOTO_TESTID,
@@ -14,7 +16,7 @@ import {
   FAV_BTN_TESTID,
   SHARE_BTN_TESTID,
   FINISH_BTN_TESTID,
-} from './helpers/detailsAndInProgressTestIds.json';
+} from './mocks/constants/detailsAndInProgressTestIds.json';
 import parseToFav from '../assets/functions/parseToFav';
 
 const drinkObj = drinkDetailed.drinks[0];
@@ -43,30 +45,32 @@ const mockTwoAPIResponses = (value1, value2) => {
     });
 };
 
-const fakeSetUp = async () => {
-  renderWithRouter(RecipeInProgress, {
-    route: '/drinks/11007',
-    path: '/drinks/:id',
+const fakeSetUp = async (component, route, path) => {
+  const container = renderWithRouter(component, {
+    route,
+    path,
   });
   await waitFor(() => { screen.getAllByRole('heading'); });
+  return container;
 }
+
 
 describe('Testes de receitas em progresso', () => {
   describe('1. Busca os elementos visíveis em página de drink e suas funcionalidades', () => {
     beforeEach(async () => {
       mockTwoAPIResponses(drinkDetailed, foods);
-      await fakeSetUp();
+      await fakeSetUp(RecipeInProgress, '/drinks/11007', '/drinks/:id');
     });
-    afterEach(() => { localStorage.clear(); cleanup(); });
+    afterEach(() => cleanup());
+    
     test('1.1. Testa a visibilidade e fonte da imagem da receita', async () => {
-
       const recipeIMG = screen.getByTestId(PHOTO_TESTID);
-
+      
       expect(recipeIMG).toBeInTheDocument();
       expect(recipeIMG.src).toBe(DRINK_IMG_SRC);
     });
+    
     test('1.2. Testa visibilidade dos elementos textuais e se buscam os textos corretos', async () => {
-
       const title = screen.getByTestId(TITLE_TESTID);
       const category = screen.getByTestId(CATEGORY_TEXT_TESTID);
       const ingredientOne = screen.getByTestId(INGRIDIENT_ONE_TESTID);
@@ -89,7 +93,6 @@ describe('Testes de receitas em progresso', () => {
       expect(instructions.textContent).toBe(DRINK_INSTRUCTIONS);
     });
     test('1.3. Testa se os botões estão visíveis e a funcionalidade dos mesmos', async () => {
-      mockLocalStorage();
       global.navigator.clipboard = { writeText: jest.fn() };
 
       const shareBtn = screen.getByTestId(SHARE_BTN_TESTID);
@@ -124,14 +127,19 @@ describe('Testes de receitas em progresso', () => {
       expect(finishBtn.disabled).toBe(true);
     });
   });
-  // describe('2. testes da lista de ingredientes NA ROTA FOODS, ao final, o finish btn deve funcionar', () =>{
-  //   test('2.1. quantidade, visibilidade, texto e tipo', () => {
-  //   });
-  //   test('2.2. LocalStorage atualizando para adicionar e remover', () => {
-  //   });
-  //   test('2.3. marca itens e recarrega a pág. vê se os itens estão marcados', () => {
-  //   })
-  // })
+
+  describe('2. testes da lista de ingredientes', () =>{
+    beforeEach( async () => {
+      mockTwoAPIResponses(foodDetailed, drinks);
+    });
+    afterEach(() => cleanup());
+    test('2.1. quantidade, visibilidade, texto e tipo', async () => {
+    });
+    test('2.2. marca itens e recarrega a pág. vê se os itens estão marcados', () => {
+    })
+    test('2.3. LocalStorage atualizando para adicionar e remover ingredientes, além de receita feita estar disponível', () => {
+    });
+  })
 
   // describe('3. testes de finalização da receita, describe deve ser contínuo', () => {
   //   test('3.1. seleciona todos os checkboxes e vê se o finish btt está habilitado', () => {
