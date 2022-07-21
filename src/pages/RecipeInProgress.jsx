@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouteMatch, useHistory } from 'react-router-dom';
 import { fetchData } from '../assets/api';
 import { mapIngredients } from '../assets/functions';
+import parseToDoneRecipes from '../assets/functions/parseTODoneRecipes';
 import { useAsyncEffect, changeLocalStorage } from '../assets/hooks';
 import useRecipeType from '../assets/hooks/useRecipeType';
 import ShareAndLike from '../components/ShareAndLike';
@@ -16,6 +17,7 @@ const RecipeDetails = () => {
   const [recipe, setRecipe] = useState({});
   const [ingredients, setIngredients] = useState([]);
   const [usedIng, setUsedIng] = useState([]);
+
   // busca os tipos
   const recipeType = useRecipeType();
   const localStgType = recipeType === 'Meal' ? 'meals' : 'cocktails';
@@ -46,16 +48,15 @@ const RecipeDetails = () => {
   // <-- uso do LocalStorage
 
   // 'willMount'
+
   useAsyncEffect(async () => {
     // busca receita pelo id
+    if (checkDone) history.push('/done-recipes');
     const actual = await fetchData.detail({ recipeType, id });
-    setRecipe(actual[0]);
-    setIngredients(mapIngredients(actual[0]).filter((ing) => ing.name !== ''));
-  }, []);
 
-  useEffect(() => {
-    // busca localStorage e popula o estado usedIng
+    setRecipe(actual[0]);
     setUsedIng(checkProg);
+    setIngredients(mapIngredients(actual[0]).filter((ing) => ing.name !== ''));
   }, []);
 
   useEffect(() => {
@@ -66,7 +67,10 @@ const RecipeDetails = () => {
     );
   }, [usedIng]);
 
+  // salva receita feita no localStorage e redireciona a pagina
   const finishRecipe = () => {
+    const obj = parseToDoneRecipes(recipe, recipeType);
+    changeLocalStorage('doneRecipes', obj, 'arrayPush');
     history.push('/done-recipes');
   };
 
