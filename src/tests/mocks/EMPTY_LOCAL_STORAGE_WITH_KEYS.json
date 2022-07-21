@@ -1,0 +1,33 @@
+{
+  "mealsToken": 1,
+  "cocktailsToken": 1,
+  "user": { "email": "email-do-usuário" },
+  "doneRecipes": [{
+    "id": "id-da-receita",
+    "type": "food-ou-drink",
+    "nationality": "nacionalidade-da-receita-ou-texto-vazio",
+    "category": "categoria-da-receita-ou-texto-vazio",
+    "alcoholicOrNot": "alcoholic-ou-non-alcoholic-ou-texto-vazio",
+    "name": "nome-da-receita",
+    "image": "imagem-da-receita",
+    "doneDate": "quando-a-receita-foi-concluida",
+    "tags": "array-de-tags-da-receita-ou-array-vazio"
+  }],
+  "favoriteRecipes": [{
+    "id": "id-da-receita",
+    "type": "food-ou-drink",
+    "nationality": "nacionalidade-da-receita-ou-texto-vazio",
+    "category": "categoria-da-receita-ou-texto-vazio",
+    "alcoholicOrNot": "alcoholic-ou-non-alcoholic-ou-texto-vazio",
+    "name": "nome-da-receita",
+    "image": "imagem-da-receita"
+  }],
+  "inProgressRecipes": {
+    "meals": {
+      "idOfTheFood": ["some", "ingredients", "to", "fill", "with", "whatever", "type", "of", "data", "you", "choose"]
+    },
+    "drinks": {
+      "idOfTheDrink": ["some", "ingredients", "to", "fill", "with", "whatever", "type", "of", "data", "you", "choose"]
+    }
+  }
+}
