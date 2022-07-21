@@ -56,3 +56,21 @@ export const mockSessionStorage = (initialStore = {}) => {
 // 3. O valor de retorno de getitem será sempre uma string
 // 4. Igual tudo fora do git, deletou, acabou, cuidado com o delete! =P
 // 5. o Objeto mockController pode ter seus métodos invocado para manipular o storage deacordo com a necessidade de cada teste, cabe aos restantes métodos serem utilizados pelo componente testado, e não em ajustes do storage mockado.
+
+// describe("test window location's reload function", () => {
+//   const original = window.location;
+
+//   const reloadFn = () => {
+//     window.location.reload(true);
+//   };
+
+//   beforeAll(() => {
+//     Object.defineProperty(window, 'location', {
+//       configurable: true,
+//       value: { reload: jest.fn() },
+//     });
+//   });
+
+//   afterAll(() => {
+//     Object.defineProperty(window, 'location', { configurable: true, value: original });
+//   });

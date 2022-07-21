@@ -67,7 +67,6 @@ const RecipeDetails = () => {
   }, [usedIng]);
 
   const finishRecipe = () => {
-    console.log(recipe);
     history.push('/done-recipes');
   };
 
@@ -90,19 +89,26 @@ const RecipeDetails = () => {
         <p data-testid="recipe-category">
           {recipeType === 'Meal' ? recipe.strCategory : recipe.strAlcoholic}
         </p>
-        {ingredients.length
-          && ingredients.map((ingredient, index) => (
-            <p key={ index } data-testid={ `${index}-ingredient-step` }>
-              <input
-                type="checkbox"
-                id={ index }
-                value={ ingredient.name }
-                onChange={ handleClick }
-                checked={ checkIngredient(ingredient.name) }
-              />
-              {`${ingredient.name} - ${ingredient.amount}`}
-            </p>
-          ))}
+        <ul>
+          {ingredients.length
+            && ingredients.map((ingredient, index) => (
+              <li key={ `${index}-ingredient-step` }>
+                <label
+                  htmlFor={ `${index}-${ingredient.name}` }
+                  data-testid={ `${index}-ingredient-step` }
+                >
+                  <input
+                    type="checkbox"
+                    id={ `${index}-${ingredient.name}` }
+                    value={ ingredient.name }
+                    onChange={ handleClick }
+                    checked={ checkIngredient(ingredient.name) }
+                  />
+                  {`${ingredient.name} - ${ingredient.amount}`}
+                </label>
+              </li>
+            ))}
+        </ul>
         <p data-testid="instructions">{recipe.strInstructions}</p>
       </section>
       {!checkDone && (
@@ -110,7 +116,7 @@ const RecipeDetails = () => {
           type="button"
           data-testid="finish-recipe-btn"
           onClick={ finishRecipe }
-          disabled={ (usedIng.length !== ingredients.length) }
+          disabled={ usedIng.length !== ingredients.length }
           className="final-button"
         >
           Finalizar
