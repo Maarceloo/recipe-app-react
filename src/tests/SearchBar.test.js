@@ -32,8 +32,8 @@ describe('Testando componente SearchBar.jsx', () => {
 
   it('Verifica se alerta funciona', async () => {
     const { history } = renderWithRouter(Header, {
-      route: '/foods',
-      path: '/foods',
+      route: '/drinks',
+      path: '/drinks',
     });
 
     const btnSearch = screen.getByRole('button', {
