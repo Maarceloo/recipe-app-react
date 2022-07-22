@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouteMatch, useHistory } from 'react-router-dom';
 import { fetchData } from '../assets/api';
 import { mapIngredients } from '../assets/functions';
+import parseToDoneRecipes from '../assets/functions/parseTODoneRecipes';
 import { useAsyncEffect, changeLocalStorage } from '../assets/hooks';
 import useRecipeType from '../assets/hooks/useRecipeType';
 import ShareAndLike from '../components/ShareAndLike';
@@ -16,6 +17,7 @@ const RecipeDetails = () => {
   const [recipe, setRecipe] = useState({});
   const [ingredients, setIngredients] = useState([]);
   const [usedIng, setUsedIng] = useState([]);
+
   // busca os tipos
   const recipeType = useRecipeType();
   const localStgType = recipeType === 'Meal' ? 'meals' : 'cocktails';
@@ -46,16 +48,15 @@ const RecipeDetails = () => {
   // <-- uso do LocalStorage
 
   // 'willMount'
+
   useAsyncEffect(async () => {
     // busca receita pelo id
+    if (checkDone) history.push('/done-recipes');
     const actual = await fetchData.detail({ recipeType, id });
-    setRecipe(actual[0]);
-    setIngredients(mapIngredients(actual[0]).filter((ing) => ing.name !== ''));
-  }, []);
 
-  useEffect(() => {
-    // busca localStorage e popula o estado usedIng
+    setRecipe(actual[0]);
     setUsedIng(checkProg);
+    setIngredients(mapIngredients(actual[0]).filter((ing) => ing.name !== ''));
   }, []);
 
   useEffect(() => {
@@ -66,8 +67,10 @@ const RecipeDetails = () => {
     );
   }, [usedIng]);
 
+  // salva receita feita no localStorage e redireciona a pagina
   const finishRecipe = () => {
-    console.log(recipe);
+    const obj = parseToDoneRecipes(recipe, recipeType);
+    changeLocalStorage('doneRecipes', obj, 'arrayPush');
     history.push('/done-recipes');
   };
 
@@ -90,19 +93,26 @@ const RecipeDetails = () => {
         <p data-testid="recipe-category">
           {recipeType === 'Meal' ? recipe.strCategory : recipe.strAlcoholic}
         </p>
-        {ingredients.length
-          && ingredients.map((ingredient, index) => (
-            <p key={ index } data-testid={ `${index}-ingredient-step` }>
-              <input
-                type="checkbox"
-                id={ index }
-                value={ ingredient.name }
-                onChange={ handleClick }
-                checked={ checkIngredient(ingredient.name) }
-              />
-              {`${ingredient.name} - ${ingredient.amount}`}
-            </p>
-          ))}
+        <ul>
+          {ingredients.length
+            && ingredients.map((ingredient, index) => (
+              <li key={ `${index}-ingredient-step` }>
+                <label
+                  htmlFor={ `${index}-${ingredient.name}` }
+                  data-testid={ `${index}-ingredient-step` }
+                >
+                  <input
+                    type="checkbox"
+                    id={ `${index}-${ingredient.name}` }
+                    value={ ingredient.name }
+                    onChange={ handleClick }
+                    checked={ checkIngredient(ingredient.name) }
+                  />
+                  {`${ingredient.name} - ${ingredient.amount}`}
+                </label>
+              </li>
+            ))}
+        </ul>
         <p data-testid="instructions">{recipe.strInstructions}</p>
       </section>
       {!checkDone && (
@@ -110,7 +120,7 @@ const RecipeDetails = () => {
           type="button"
           data-testid="finish-recipe-btn"
           onClick={ finishRecipe }
-          disabled={ (usedIng.length !== ingredients.length) }
+          disabled={ usedIng.length !== ingredients.length }
           className="final-button"
         >
           Finalizar

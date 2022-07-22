@@ -8,7 +8,25 @@ const DoneRecipes = () => {
   }, []);
 
   return (
-    <div>DoneRecipes</div>
+    <div>
+      <button type="button" data-testid="filter-by-all-btn" onClick={ null }>All</button>
+      <button
+        type="button"
+        data-testid="filter-by-food-btn"
+        onClick={ null }
+      >
+        Food
+
+      </button>
+      <button
+        type="button"
+        data-testid="filter-by-drink-btn"
+        onClick={ null }
+      >
+        Drinks
+
+      </button>
+    </div>
   );
 };
 
